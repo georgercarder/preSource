@@ -36,12 +36,14 @@
 			if (!gotResponse && 
 			    this.status === 200 && 
 			    this.responseText.length) {
-				console.log(Date.now() - start);
+				// for debugging and dev
+				console.log(Date.now() - start); 
 				gotResponse = true;
-				setTimeout(() => 
-				  callback({
+				let resp = {
 				    responseType: this.responseType,
-				    response: this.response}), 0);
+				    response: this.response};
+				setTimeout(() => {
+				  callback(resp)}, 0);
 				requests.forEach(r => {
 					r.abort();
 				});
@@ -49,6 +51,7 @@
 			}
 			this.abort();
 		}
+		// for debugging and dev
 		let start = Date.now();
 		gateways.forEach(g => {
 			if (!gotResponse) {
@@ -57,15 +60,14 @@
 				requests.push(req);
 			  	req.addEventListener("load", reqListener);
 			  	req.open("GET", fullPath);
-			  	console.log(fullPath);
 			  	req.send();
 			}
 		});
 	}
 
-	function exampleUse(respText) {
+	function exampleUse(respStruct) {
 		console.log("received");
-		//console.log(respText);
+		console.log(respStruct);
 	}
 
 	let example = "/ipfs/QmZBuTfLH1LLi4JqgutzBdwSYS5ybrkztnyWAfRBP729WB/archives/index.html";
