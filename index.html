@@ -33,7 +33,9 @@
 		const requests = [];
 		let gotResponse = false;
 		function reqListener() {
-			if (!gotResponse && this.responseText.length) {
+			if (!gotResponse && 
+			    this.status === 200 && 
+			    this.responseText.length) {
 				gotResponse = true;
 				let respText = this.responseText;
 				callback(respText);
