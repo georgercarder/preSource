@@ -7,4 +7,4 @@
 ##### so fast that "re" seems like "pre"
 
 
-###### currently just a proof of concept but in the works
+###### currently just a proof of concept but is in the works
