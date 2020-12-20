@@ -1,0 +1,66 @@
+<script>
+	let gateways = [
+		"gateway.originprotocol.com",
+		"gateway.pinata.cloud",
+		"gateway.ravenland.org",
+		"gateway.temporal.cloud",
+		"ipfs.2read.net",
+		"ipfs.best-practice.se",
+		"cf-ipfs.com",
+		"ipfs.infura.io",
+		"ipfs.cf-ipfs.com",
+		"ipfs.drink.cafe",
+		"ipfs.fleek.co",
+		"10.via0.com",
+		"ipfs.greyh.at",
+		"ipfs.infura.io",
+		"ipfs.io",
+		"gateway.ipfs.io",
+		"jacl.tech",
+		"ipfs.k1ic.com",
+		"cloudflare-ipfs.com",
+		"ipfs.mttk.net",
+		"ipfs.overpi.com",
+		"ipfs.runfission.com",
+		"ipfs.sloppyta.co",
+		];
+
+	// `ipfsCid` is of the form 
+	//   "/ipfs/QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy"
+	// `callback` takes one parameter, the `respText` below
+
+	function preSource(ipfsCid, callback) {
+		const requests = [];
+		let gotResponse = false;
+		function reqListener() {
+			if (!gotResponse && this.responseText.length) {
+				gotResponse = true;
+				let respText = this.responseText;
+				callback(respText);
+				requests.forEach(r => {
+					r.abort();
+				});
+				return;
+			}
+			this.abort();
+		}
+		gateways.forEach(g => {
+			let fullPath = "https://" + g + ipfsCid;
+			let req = new XMLHttpRequest();
+			requests.push(req);
+			req.addEventListener("load", reqListener);
+			req.open("GET", fullPath);
+			req.send();
+		});
+	}
+
+	function exampleUse(respText) {
+		console.log("received");
+		//console.log(respText);
+	}
+
+	let example = "/ipfs/QmZBuTfLH1LLi4JqgutzBdwSYS5ybrkztnyWAfRBP729WB/archives/index.html";
+	//let example = "/ipfs/QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy";
+	//let example = "/ipfs/QmdPtC3T7Kcu9iJg6hYzLBWR5XCDcYMY7HV685E3kH3EcS";
+	preSource(example, exampleUse);
+</script>
