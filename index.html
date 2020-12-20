@@ -39,9 +39,7 @@
 				// for debugging and dev
 				console.log(Date.now() - start); 
 				gotResponse = true;
-				let resp = {
-				    responseType: this.responseType,
-				    response: this.response};
+				let resp = {response: this.response};
 				setTimeout(() => {
 				  callback(resp)}, 0);
 				requests.forEach(r => {
@@ -70,8 +68,8 @@
 		console.log(respStruct);
 	}
 
-	let example = "/ipfs/QmZBuTfLH1LLi4JqgutzBdwSYS5ybrkztnyWAfRBP729WB/archives/index.html";
-	//let example = "/ipfs/QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy";
+	//let example = "/ipfs/QmZBuTfLH1LLi4JqgutzBdwSYS5ybrkztnyWAfRBP729WB/archives/index.html";
+	let example = "/ipfs/QmXnnyufdzAWL5CqZ2RnSNgPbvCc1ALT73s6epPrRnZ1Xy";
 	//let example = "/ipfs/QmdPtC3T7Kcu9iJg6hYzLBWR5XCDcYMY7HV685E3kH3EcS";
 	preSource(example, exampleUse);
 </script>
