@@ -36,6 +36,7 @@
 			if (!gotResponse && 
 			    this.status === 200 && 
 			    this.responseText.length) {
+				console.log(Date.now() - start);
 				gotResponse = true;
 				setTimeout(() => 
 				  callback({
@@ -48,13 +49,17 @@
 			}
 			this.abort();
 		}
+		let start = Date.now();
 		gateways.forEach(g => {
-			let fullPath = "https://" + g + ipfsCid;
-			let req = new XMLHttpRequest();
-			requests.push(req);
-			req.addEventListener("load", reqListener);
-			req.open("GET", fullPath);
-			req.send();
+			if (!gotResponse) {
+				let fullPath = "https://" + g + ipfsCid;
+				let req = new XMLHttpRequest();
+				requests.push(req);
+			  	req.addEventListener("load", reqListener);
+			  	req.open("GET", fullPath);
+			  	console.log(fullPath);
+			  	req.send();
+			}
 		});
 	}
 
