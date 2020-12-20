@@ -37,8 +37,10 @@
 			    this.status === 200 && 
 			    this.responseText.length) {
 				gotResponse = true;
-				let respText = this.responseText;
-				callback(respText);
+				setTimeout(() => 
+				  callback({
+				    responseType: this.responseType,
+				    response: this.response}), 0);
 				requests.forEach(r => {
 					r.abort();
 				});
